@@ -1,18 +1,22 @@
 import discord
 from discord.ext import commands
 import datetime
-import asyncio
 import os
 
-intents = discord.Intents.default()
-intents.voice_states = True
-intents.guilds = True
-intents.messages = True
+# ✅ Check if BOT_TOKEN is set
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise ValueError("❌ BOT_TOKEN is not set! Check your Railway environment variables.")
+
+print("✅ BOT_TOKEN found! Starting bot...")  # Debugging message
+
+# ✅ Enable all required intents
+intents = discord.Intents.all()
 
 bot = commands.Bot(command_prefix='-', intents=intents)
 
-# Hidden text channel where data is stored
-DATA_CHANNEL_ID = 123456789012345678  # Replace with your hidden channel ID
+# ✅ Hidden text channel where data is stored (Replace with actual channel ID)
+DATA_CHANNEL_ID = 123456789012345678  
 
 async def log_data(guild, message):
     """Logs data to the hidden Discord text channel."""
@@ -80,4 +84,5 @@ async def m(ctx):
     
     await ctx.send(response)
 
-bot.run(os.getenv("BOT_TOKEN"))  # Get token from environment variable
+# ✅ Start the bot
+bot.run(BOT_TOKEN)
